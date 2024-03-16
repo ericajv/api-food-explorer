@@ -7,6 +7,10 @@ class UsersController {
     async create(request, response) {
         const { name, email, password } = request.body;
 
+        if (password.length < 6) {
+           throw new AppError("A senha deve possuir pelo menos 6 caracteres");
+        }
+
         const checkUsersExists = await knex("users").where({ email }).first();
 
         if (checkUsersExists) {
@@ -27,6 +31,11 @@ class UsersController {
 
     async update(request, response) {
         const { name, email, password, old_password } = request.body;
+
+        if (password.length < 6) {
+           throw new AppError("A senha deve possuir pelo menos 6 caracteres");
+        }
+
         const id = request.user.id;
 
         const user = await knex("users").where({ id }).first();
