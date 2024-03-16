@@ -31,6 +31,8 @@ class PlatesController {
         const category = await knex("categories").where({ id: plate.category_id }).first();
         const ingredients = await knex("ingredients").where({ plate_id: id }).orderBy("name");
 
+        plate.price = Number(plate.price).toFixed(2)
+
         return response.json({ plate, category, ingredients });
     }
 
